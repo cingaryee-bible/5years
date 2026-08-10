@@ -2,9 +2,9 @@
   "name": "5年全本聖經精讀靈修",
   "short_name": "5年聖經靈修",
   "description": "260週、每日20至30分鐘的全本聖經精讀靈修計劃",
-  "start_url": "./bible_5_year_devotional.html",
+  "start_url": "./",
   "scope": "./",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#edf3f5",
   "theme_color": "#153b55",
   "icons": [
