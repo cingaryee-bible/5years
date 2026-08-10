@@ -42,6 +42,10 @@ input[type=search],select,button,.fileButton{border-color:#c5d5dd;background:#ff
 .mainRef{color:#2d7897}.original{color:#213f4d;background:#e8f4f8}.day summary:after{color:#d37a46}.check{accent-color:#2d7897}
 .notes textarea{border-color:#c5d5dd;background:#fffefd}.fileButton:focus-within,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #d37a4655;outline-offset:2px}
 .topLink{color:#1c5c79}
+.backToTop{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(18px,calc(env(safe-area-inset-bottom) + 14px));z-index:30;min-height:46px;padding:9px 14px;border:1px solid #ffffff70;border-radius:999px;background:#153b55e8;color:#fff;box-shadow:0 6px 20px #102f4550;backdrop-filter:blur(8px);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s,background .2s}
+.backToTop.isVisible{opacity:1;pointer-events:auto;transform:translateY(0)}.backToTop:hover{background:#1f5d7d}.backToTop:active{transform:translateY(1px)}
+@media(max-width:650px){.backToTop{right:12px;padding:8px 12px;font-size:.9rem}}
+@media print{.backToTop{display:none!important}}
 </style>
 </head>
 <body id="top">
@@ -329,5 +333,9 @@ document.querySelector('#exportData').onclick=()=>{const payload={app:'5年全�
 document.querySelector('#importData').onchange=event=>{const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(data.app!=='5年全本聖經20至30分鐘精讀靈修'||typeof data.checks!=='object')throw new Error('格式不符');if(!confirm('匯入會取代目前裝置的進度及筆記，確定繼續？'))return;checks=data.checks||{};notes=data.notes||{};save();render();alert('匯入完成。')}catch{alert('無法匯入：檔案格式不符。')}finally{event.target.value=''}};reader.readAsText(file)};
 document.querySelector('#resetData').onclick=()=>{if(!confirm('確定清除全部完成記錄及筆記？此操作不能復原。'))return;checks={};notes={};localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(NOTES_KEY);render()};
 load();render();if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+</script>
+<button class="backToTop" id="backToTop" type="button" aria-label="返回頁頂">↑ 頁頂</button>
+<script>
+(()=>{const button=document.querySelector('#backToTop');if(!button)return;const update=()=>button.classList.toggle('isVisible',window.scrollY>480);window.addEventListener('scroll',update,{passive:true});button.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));update()})();
 </script>
 </body></html>
